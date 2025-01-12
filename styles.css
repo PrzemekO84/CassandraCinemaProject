@@ -1,3 +1,4 @@
+
 :root{
     --sectionColor: rgb(34, 34, 34);
     --altSectionColor: hsl(332, 32%, 12%);
@@ -7,12 +8,13 @@
     --hoverColor: hsl(340, 76%, 48%);
 }
 
-body{
-    background: linear-gradient(90deg, #2a2a2a 0%, #020114 32%, #211f22 90%);
-    color: var(--mainTextColor);
-    position: relative;
+body {
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
     font-family: 'Libre Franklin', 'Roboto', sans-serif;
+    background: linear-gradient(90deg, #2a2a2a 0%, #020114 32%, #211f22 90%);
+    color: var(--mainTextColor);
 }
 
 /* Header ----------------------------------------*/
@@ -84,12 +86,10 @@ body{
 
 /* Footer ----------------------------------------*/
 footer{
-    position: absolute;
-    bottom: 0;
     width: 100%;  
     border-top: 2px solid var(--buttonsColor);
     border-radius: 10px;
-    padding-top: 20px;
+    padding-top: 8px;
 }
 
 #footerContainer{
@@ -140,8 +140,69 @@ footer p:hover, li:hover{
     color: var(--hoverColor);
 }
 
-
+footer a{
+    color: var(--mainTextColor);
+    text-decoration: none;
+}
 
 /* Footer ----------------------------------------*/
+
+/* Main */
+
+.mainTextContainer{
+    display: flex;
+    margin: auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 25px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--hoverColor);
+    background-color: var(--sectionColor);
+    border-radius: 10px;
+    max-width:max-content;
+    box-shadow: 1.5rem 1.5rem 3rem -0.75rem var(--altSectionColor);
+
+}
+
+.mainTextContainer p{
+    font-size: 1rem;
+}
+
+.mainTextContainer a{
+    color: var(--hoverColor);
+}
+
+
+main{
+    flex: 1;
+}
+
+.reserveMovieContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#reserveMovieButton{
+    margin-bottom: 30px;
+    background-color: var(--buttonsColor);
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 2rem;
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+#reserveMovieButton:hover{
+    box-shadow: 2px 2px 5px white,
+                -2px -2px 5px white;
+}
+
+
+
+/* Main */
 
 
