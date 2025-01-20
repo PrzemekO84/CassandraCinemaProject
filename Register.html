@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cassandra Cinema</title>
+    <title>Registration</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="imageSlider.css">
+    <link rel="stylesheet" href="registerLogin.css">
     <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Cassandra_logo.svg/1200px-Cassandra_logo.svg.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,6 @@
             wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" 
             rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 </head>
 <body>
 
@@ -38,42 +37,17 @@
 
     <main>
 
-        <section class="sliderContainer">
-            <div class="sliderWrapper">
-                <div class="slider">
-                    <img id="slide1" src="Images\Dwunastu_gniewnych_ludzi.jpg" alt="Twelve angry man movie image">
-                    <img id="slide2" src="Images\ForrestGump.jpg" alt="Forrest Gump movie image">
-                    <img id="slide3" src="Images\LodNad.jpg" alt="One Flew Over the Cuckoo's Nest movie image">
-                    <img id="slide4" src="Images\Nietykalni.jpg" alt="Intocable movie image">
-                    <img id="slide5" src="Images\OjciechChrestny1.jpg" alt="First God Father movie image">
-                    <img id="slide6" src="Images\SkazaniNaShawshank.jpg" alt="The Shawshank redemption movie image">
-                    <img id="slide7" src="Images\WladcaPierscieni.jpg" alt="Lord of the Rings: The Return of The King movie image">
-                    <img id="slide8" src="Images\ZielonaMila.jpg" alt="Green Mile movie image">
-                </div>
-                <div class="sliderNav">
-                    <a href="#slide1"></a>
-                    <a href="#slide2"></a>
-                    <a href="#slide3"></a>
-                    <a href="#slide4"></a>
-                    <a href="#slide5"></a>
-                    <a href="#slide6"></a>
-                    <a href="#slide7"></a>
-                    <a href="#slide8"></a>
-                </div>
+        <div class="registerContainer">
+            <div class="registerWrapper">
+                <h2>Sign up</h2>
+                <input type="email" placeholder="Please enter your email">
+                <input type="text" placeholder="Please eneter your username">
+                <input type="password" placeholder="Please eneter your password">
+                <input type="password" placeholder="Please enter your password again">
+                <button>Sign up</button>
+                <a href="Login.html">Already have an account?</a>
             </div>
-        </section>
-
-        <div class="mainTextContainer">
-            <h2>Are u ready to watch the best classics in the hisotry of cinema?</h2>
-            <p>Only this month we will be playing the best classics in the hitory of cinema in our great Cassandra Cinema.</p>
-            <p>For more informations please visit our<a href=""> Movies </a>site!</p>
         </div>
-
-        <div class="reserveMovieContainer">
-            <a href=""><button id="reserveMovieButton">Reserve a seat now!</button></a>
-        </div>
-
-
         
     </main>
 
@@ -95,11 +69,10 @@
             </nav>
         </div>
         <div id="copyRightContainer">
-            <p>CopyRight &copy;2024 <span style="color: gray;">Designed by Przemek Orzechowski</span> </p>
+            <p>CopyRight &copy;2024 Designed by Przemek Orzechowski</p>
         </div>
     </footer>
     
-    
-    <script src="app.js"></script>
+    <script src="loginRegister.js"></script>
 </body>
 </html>

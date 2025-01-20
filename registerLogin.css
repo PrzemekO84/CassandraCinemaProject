@@ -1,0 +1,55 @@
+.registerContainer{
+    max-width: fit-content;
+    margin: 0 auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    aspect-ratio: 16/9;
+    border: 2px solid white;
+    padding: 2rem;
+    border-radius: 10px;
+    background-color: hsla(0, 3%, 25%, 0.8);
+}
+
+.registerWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    gap: 1.5rem;
+}
+
+.registerWrapper input{
+    width: 20rem;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+    border: none;
+}
+
+.registerWrapper h2{
+    border-radius: 1rem;
+    font-size: 2.4rem;
+    text-shadow: 2px 2px 5px hsl(340, 76%, 48%),
+                -2px -2px 5px black;
+}
+
+.registerWrapper button{
+    width: 22rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    background-color: var(--buttonsColor);
+    transition: 0.5s ease-in-out;
+}
+
+.registerContainer button:hover{
+    box-shadow: 2px 2px 5px white,
+                -2px -2px 5px white;
+}
+
+.registerContainer a{
+    color: white;
+    font-size: 1.1rem;
+}
