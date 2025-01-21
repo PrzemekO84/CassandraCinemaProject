@@ -53,3 +53,9 @@
     color: white;
     font-size: 1.1rem;
 }
+
+#errorMessage{
+    display: none;
+    color: red;
+    font-size: 1.3rem;
+}

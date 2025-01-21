@@ -22,15 +22,28 @@
                 <a href="index.html"><img src="Images\Cassandra_logo.svg.png" alt="logoImage"></a>
             </div>
             <nav>
-                <h2>Movies</h2>
-                <h2>Repertoire</h2>
-                <h2>Bar</h2>
-                <h2>Reservation</h2>
+                <h2 class="navContainer">Movies</h2>
+                <h2 class="navContainer">Repertoire</h2>
+                <h2 class="navContainer">Bar</h2>
+                <h2 class="navContainer">Reservation</h2>
             </nav>
             <div id="loginRegisterContainer">
-                <a href="Login.html"><h2>Login</h2></a>
-                <a href="Register.html"><h2>Registration</h2></a>
-                <a href="Register.html"><i class="fa-solid fa-user"></i></a>
+                <a href="Login.html">
+                    <div class="signINUPContainer">
+                        <h2>Sign in</h2>
+                    </div>
+                </a>
+                <a href="Register.html">
+                    <div class="signINUPContainer">
+                        <h2>Sign up</h2>
+                    </div>
+                </a>
+                
+                <a href="Register.html">
+                    <div id="iconContainer">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </a>
             </div>
         </div> 
     </header>
@@ -40,11 +53,12 @@
         <div class="registerContainer">
             <div class="registerWrapper">
                 <h2>Sign up</h2>
-                <input type="email" placeholder="Please enter your email">
-                <input type="text" placeholder="Please eneter your username">
-                <input type="password" placeholder="Please eneter your password">
-                <input type="password" placeholder="Please enter your password again">
-                <button>Sign up</button>
+                <input id="registerEmail" type="email" placeholder="Please enter your email">
+                <input id="registerUsername" type="text" placeholder="Please eneter your username">
+                <input id="registerPassword" type="password" placeholder="Please eneter your password">
+                <input id="passwordValidation" type="password" placeholder="Please enter your password again">
+                <p id="errorMessage"></p>
+                <button onclick="Registration()">Sign up</button>
                 <a href="Login.html">Already have an account?</a>
             </div>
         </div>
@@ -73,6 +87,6 @@
         </div>
     </footer>
     
-    <script src="loginRegister.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

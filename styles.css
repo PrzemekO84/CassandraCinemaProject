@@ -27,7 +27,6 @@ body {
     align-items: center;
     border-bottom: 2px solid var(--hoverColor);
     border-radius: 10px;
-    margin-top: 10px;
     padding: 7px;
     font-size: 1.4rem;
     gap: 90px;
@@ -56,6 +55,31 @@ body {
     flex-direction: row;
     gap: 40px;
     cursor: pointer;
+}
+
+.navContainer{
+    border: 2px solid var(--hoverColor);
+    padding: 20px 20px;
+    border-radius: 25px;
+    background-color: var(--sectionColor); 
+}
+
+.signINUPContainer{
+    border: 2px solid var(--hoverColor);
+    padding: 0px 20px;
+    border-radius: 25px;
+    background-color: var(--sectionColor);
+}
+
+i{
+    font-size: 1.6rem;
+}
+
+#iconContainer{
+    border: 2px solid var(--hoverColor);
+    padding: 20px 20px;
+    border-radius: 25px;
+    background-color: var(--sectionColor);
 }
 
 #loginRegisterContainer{

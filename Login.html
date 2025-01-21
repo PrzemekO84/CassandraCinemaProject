@@ -22,15 +22,28 @@
                 <a href="index.html"><img src="Images\Cassandra_logo.svg.png" alt="logoImage"></a>
             </div>
             <nav>
-                <h2>Movies</h2>
-                <h2>Repertoire</h2>
-                <h2>Bar</h2>
-                <h2>Reservation</h2>
+                <h2 class="navContainer">Movies</h2>
+                <h2 class="navContainer">Repertoire</h2>
+                <h2 class="navContainer">Bar</h2>
+                <h2 class="navContainer">Reservation</h2>
             </nav>
             <div id="loginRegisterContainer">
-                <a href="Login.html"><h2>Login</h2></a>
-                <a href="Register.html"><h2>Registration</h2></a>
-                <a href="Register.html"><i class="fa-solid fa-user"></i></a>
+                <a href="Login.html">
+                    <div class="signINUPContainer">
+                        <h2>Sign in</h2>
+                    </div>
+                </a>
+                <a href="Register.html">
+                    <div class="signINUPContainer">
+                        <h2>Sign up</h2>
+                    </div>
+                </a>
+                
+                <a href="Register.html">
+                    <div id="iconContainer">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </a>
             </div>
         </div> 
     </header>
@@ -42,7 +55,7 @@
                 <h2>Log in</h2>
                 <input type="text" placeholder="Please enter your email or username">
                 <input type="password" placeholder="Please eneter your password">
-                <button>Log in</button>
+                <button onclick="Login()">Log in</button>
                 <a href="Register.html">Don't have an account?</a>
             </div>
         </div>
@@ -71,6 +84,6 @@
         </div>
     </footer>
     
-    <script src="loginRegister.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
