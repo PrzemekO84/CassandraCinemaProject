@@ -1,5 +1,7 @@
 //Image Slider --------------------------------------
 
+const { response } = require("express");
+
 const slider = document.querySelector('.slider');
 const links = document.querySelectorAll('.sliderNav a');
 
@@ -34,41 +36,27 @@ function Registration(){
         },
         body: JSON.stringify({email, username, password, date}),
     })
-    .then(response => response.json())
-    .then(data =>{
-        const registerEmail = document.getElementById("registerEmail");
-        const registerUsername = document.getElementById("registerUsername");
-        const registerPassword = document.getElementById("registerPassword");
-        const passwordValidation = document.getElementById("passwordValidation");
+    .then(async response => {
+        const data = await response.json();
 
-        const errorMessage = document.getElementById("errorMessage");
+        console.log(data.message);
 
-        errorMessage.style.color = "#66ff33";
-        errorMessage.style.display = "block";
-        errorMessage.textContent = data.message;
-
-        registerEmail.value = ""
-        registerUsername.value = ""
-        registerPassword.value = ""
-        passwordValidation.value =""
+        if(response.ok){
+            showErrorMessages(data.message, "pass");
+        }
+        else{
+            showErrorMessages(data.message, "fail");
+        }
     })
-    .catch(error => console.error("Error:", error));
+    .catch(error => console.error("Error: ", error));
 
 
     console.log(JSON.stringify(date));
 
 }
 
-function Login(){
-
-    const date = new Date();
-
-    console.log(date);
-
-}
-
-
 function registerValidation(){
+
 
     const email = document.getElementById("registerEmail").value;
     const username = document.getElementById("registerUsername").value;
@@ -79,40 +67,95 @@ function registerValidation(){
     const passwordValidation = document.getElementById("passwordValidation");
 
     if(!email || !username || !password || !passwordValidationValue){
-        return showErrorMessages("All fields are required.");
+        return showErrorMessages("All fields are required.", "fail");
     }
     else if(!email.includes("@")){
-        return showErrorMessages("Incorrect email adress.");
+        return showErrorMessages("Incorrect email adress.", "fail");
     }
     else if(username.length > 20){
-        return showErrorMessages("Username cannot be longer than 20 characters.");
+        return showErrorMessages("Username cannot be longer than 20 characters.", "fail");
     }
     else if(password.length < 6){
         registerPassword.value = "";
         passwordValidation.value = "";
-        return showErrorMessages("Your password is too short, minimum length is 6 characters.");
+        return showErrorMessages("Your password is too short, minimum length is 6 characters.", "fail");
     }
     else if(password.length > 30){
         registerPassword.value = "";
         passwordValidation.value = "";
-        return showErrorMessages("Your password is too long, maximum length is 30 characters.");
+        return showErrorMessages("Your password is too long, maximum length is 30 characters.", "fail");
     }
     else if(password !== passwordValidationValue){
         registerPassword.value = "";
         passwordValidation.value = "";
-        return showErrorMessages("Passwords do not match, please try again.");
+        return showErrorMessages("Passwords do not match, please try again.", "fail");
     }
     else{
         return {email, username, password}
     }
 }
 
+//Registration --------------------------------------
 
-function showErrorMessages(message){
+//Login --------------------------------------
+
+function Login(){
+
+    const usernameEmail = document.getElementById("loginEmailUsername").value;
+    const password = document.getElementById("loginPassword").value;
+
+    fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({usernameEmail, password}),
+    })
+    .then(async response => {
+        const data = await response.json();
+
+        if(response.ok){
+            showErrorMessages(data.message, "pass");
+        }
+        else{
+            showErrorMessages(data.message, "fail");
+        }
+    })
+    .catch(error => console.error("Error: " + error)); 
+
+
+
+}
+
+
+
+
+
+function showErrorMessages(message, status){
 
     const errorMessage = document.getElementById("errorMessage");
 
+    const registerEmail = document.getElementById("registerEmail");
+    const registerUsername = document.getElementById("registerUsername");
+    const registerPassword = document.getElementById("registerPassword");
+    const passwordValidation = document.getElementById("passwordValidation");
+    
+    console.log(status);
+
     errorMessage.style.display = "block";
+
+    if(status === "fail"){
+        errorMessage.style.color = "red";
+        console.log("HELLOO??");
+    }
+    else{
+        errorMessage.style.color = "#66ff33";
+        registerEmail.value = ""
+        registerUsername.value = ""
+        registerPassword.value = ""
+        passwordValidation.value = ""
+        console.log("czemu");
+    }
 
     errorMessage.textContent = message
 
@@ -120,4 +163,3 @@ function showErrorMessages(message){
 
 
 
-//Registration --------------------------------------
