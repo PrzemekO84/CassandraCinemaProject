@@ -3,11 +3,19 @@ const bodyParser = require("body-parser");
 const cassandra = require('cassandra-driver');
 const uuid = require('uuid');
 const cors = require('cors');
+const session = require("express-session");
 
 const app = express();
 const port = 3000;
 
 app.use(cors());
+
+app.use(session({
+    secret: 'secretKeyFor_CassandraCinema', //simple code since its only a project.
+    resave: false,
+    saveUninitialized: false,
+    cookie: {secure: false},
+}))
 
 const client = new cassandra.Client({
     contactPoints: ['127.0.0.1'],
@@ -17,6 +25,7 @@ const client = new cassandra.Client({
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 
 //Register api -------------------------------------------------
 
@@ -74,7 +83,6 @@ app.post("/login", async (req, res) =>{
             emailExists = true;
         }
     
-    
         if(!usernameExists && !emailExists){
             return res.status(400).json({message: "Username or email does not exists."});
         }
@@ -82,20 +90,24 @@ app.post("/login", async (req, res) =>{
             const checkPasswordQuery = 'SELECT password FROM users WHERE username =?'
             const checkPassword = await client.execute(checkPasswordQuery, [usernameEmail], {prepare: true});
             if(checkPassword.rows[0].password  === password){
-                return res.status(200).json({message: "UDALO SIE!"})
+                const user = checkUsername.rows[0];
+                req.session.user = {id: user.id, username: user.username, email: user.email};
+                return res.status(200).json({message: "Successfully loged in!"})
             }
             else{
-                return res.status(400).json({message: "NIE UDALO SIE!"})
+                return res.status(400).json({message: "Invalid credentials."})
             }
         }
         else if(emailExists){
             const checkPasswordQuery = 'SELECT password FROM users WHERE email =?'
             const checkPassword = await client.execute(checkPasswordQuery, [usernameEmail], {prepare: true});
             if(checkPassword.rows[0].password === password){
-                return res.status(200).json({message: "UDALO SIE!"})
+                const user = checkEmail.rows[0];
+                req.session.user = {id: user.id, username: user.username, email: user.email};
+                return res.status(200).json({message: "Successfully loged in!"})
             }
             else{
-                return res.status(400).json({message: "NIE UDALO SIE!"})
+                return res.status(400).json({message: "Invalid credentials."})
             }
         }
     }
@@ -111,6 +123,18 @@ app.post("/login", async (req, res) =>{
 })
 
 //Login api -------------------------------------------------
+
+function isAuthenticated(req, res, next){
+    if(req.session.user){
+        return next();
+    }
+    res.status(400).send("Login unsuccessfully.");
+}
+
+app.get("/profile", isAuthenticated, (req, res) => {
+    res.send(`Hello ${req.session.user.username}`);
+})
+
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

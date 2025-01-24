@@ -16,6 +16,8 @@ links.forEach(link => {
 
 //Image Slider --------------------------------------
 
+
+
 //Registration --------------------------------------
 
 function Registration(){
@@ -39,19 +41,14 @@ function Registration(){
     .then(async response => {
         const data = await response.json();
 
-        console.log(data.message);
-
         if(response.ok){
-            showErrorMessages(data.message, "pass");
+            showErrorMessages(data.message, "passRegister");
         }
         else{
             showErrorMessages(data.message, "fail");
         }
     })
     .catch(error => console.error("Error: ", error));
-
-
-    console.log(JSON.stringify(date));
 
 }
 
@@ -123,12 +120,29 @@ function Login(){
     })
     .catch(error => console.error("Error: " + error)); 
 
-
+    checkIfLogged();
 
 }
 
+function checkIfLogged(){
 
+    fetch("http://localhost:3000/profile", {
+        method: "GET",
+        credentials: "include",
+    })
+    .then(async response =>{
+        const data = await response.json();
 
+        if(response.ok){
+            console.log(response.text());
+        }
+        else{
+            console.log("BAD ABD BAD!");
+        }
+    })
+    .catch(error => console.error("Error: " + error));
+
+}
 
 
 function showErrorMessages(message, status){
@@ -139,22 +153,21 @@ function showErrorMessages(message, status){
     const registerUsername = document.getElementById("registerUsername");
     const registerPassword = document.getElementById("registerPassword");
     const passwordValidation = document.getElementById("passwordValidation");
-    
-    console.log(status);
 
     errorMessage.style.display = "block";
 
     if(status === "fail"){
         errorMessage.style.color = "red";
-        console.log("HELLOO??");
     }
-    else{
+    else if(status === "passRegister"){
         errorMessage.style.color = "#66ff33";
         registerEmail.value = ""
         registerUsername.value = ""
         registerPassword.value = ""
         passwordValidation.value = ""
-        console.log("czemu");
+    }
+    else{
+        errorMessage.style.color = "#66ff33";
     }
 
     errorMessage.textContent = message
