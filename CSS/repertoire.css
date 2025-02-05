@@ -57,8 +57,12 @@
     border: 1px solid white;
     border-radius: 0.5rem;
     background-color: hsla(0, 3%, 25%, 0.8);
-    min-width: fit-content;
+    max-width: 665px;
+}
 
+.movie h2{
+    text-align: center;
+    font-size: 2rem;
 }
 
 .movieInformation{
@@ -67,6 +71,7 @@
     justify-content: start;
     align-items: center;
     margin-left: 15px;
+    width: 40%;
 }
 
 .movieTimes{
@@ -78,12 +83,8 @@
 .movie img{
     border: 1px solid black;
     border-radius: 1rem;
-    width: 400px;
+    width: 60%;
     aspect-ratio: 16/9;
-}
-
-.movie h2{
-    font-size: 2rem;
 }
 
 .movie p{
