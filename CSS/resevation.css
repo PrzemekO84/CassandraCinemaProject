@@ -1,0 +1,54 @@
+.reservationContainer{
+    max-width: fit-content;
+    margin: 0 auto;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: hsla(0, 3%, 25%, 0.8);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+}
+
+.reservationWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.reservationOptionsContainer{
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-direction: row;
+    gap: 100px;
+}
+
+.movieTimes{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.reservationOptions{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1.5rem;
+    min-height: 300px;
+    text-align: center;
+    text-wrap: nowrap;
+    border-radius: 15px;
+    background-color: var(--sectionColor); 
+    border: 1px solid var(--hoverColor);
+}
+
+.reservationWrapper h2{
+    font-size: 2.8rem;
+}
+
+.reservationOptions h2{
+    font-size: 1.8rem;
+}
