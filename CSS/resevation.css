@@ -4,8 +4,8 @@
     border: 2px solid white;
     border-radius: 10px;
     background-color: hsla(0, 3%, 25%, 0.8);
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
     padding: 1rem;
 }
 
@@ -22,7 +22,7 @@
     justify-content: center;
     align-items: stretch;
     flex-direction: row;
-    gap: 100px;
+    gap: 80px;
 }
 
 .movieTimes{
@@ -52,3 +52,71 @@
 .reservationOptions h2{
     font-size: 1.8rem;
 }
+
+.dropdownMenu button{
+    font-size: 1.6rem;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: var(--buttonsColor);
+}
+
+.content p{
+    display: block;
+    padding: 20px 25px;
+    font-size: 1.1rem;
+    color: black;
+    cursor: pointer;
+    margin: 0;
+    border-radius: 10px;
+}
+
+.content p:hover{
+    background-color: hsl(0, 0%, 70%);
+}
+
+.dropdownMenu .content{
+    display: none;
+    background-color: hsl(0, 0%, 85%);
+    position: absolute;
+    min-width: 130px;
+    box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.8);
+    border-radius: 10px;
+}
+
+.dropdownMenu:hover .content{
+    display: block;
+}
+
+.dropdownMenu{
+    display: inline-block;
+}
+
+.movieTimes p{
+    border-radius: 10px;
+    background-color: var(--buttonsColor);
+    font-size: 1.5rem;
+    padding: 15px;
+    color: black;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+}
+
+.reservationOptions p{
+    font-size: 1.4rem;
+}
+
+.movieTimes p:hover, .reservationOptions button:hover{
+    box-shadow: 2px 2px 5px white,
+                -2px -2px 5px white;
+}
+
+.reservationOptions button{
+    font-size: 1.6rem;
+    background-color: var(--buttonsColor);
+    padding: 12px;
+    border-radius: 10px;
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+
