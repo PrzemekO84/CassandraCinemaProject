@@ -1,21 +1,18 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cassandra = require('cassandra-driver');
 const uuid = require('uuid');
 const cors = require('cors');
-const session = require("express-session");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const port = 3000;
 
 app.use(cors());
 
-app.use(session({
-    secret: 'secretKeyFor_CassandraCinema', //simple code since its only a project.
-    resave: false,
-    saveUninitialized: false,
-    cookie: {secure: false},
-}))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 const client = new cassandra.Client({
     contactPoints: ['127.0.0.1'],
@@ -23,8 +20,8 @@ const client = new cassandra.Client({
     keyspace: 'cassandracinemadatabase'
 });
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+const JWT_SECRET = process.env.JWT_SECRET|| "SecretKey";
+
 
 
 //Register api -------------------------------------------------
@@ -91,20 +88,31 @@ app.post("/login", async (req, res) =>{
             const checkPassword = await client.execute(checkPasswordQuery, [usernameEmail], {prepare: true});
             if(checkPassword.rows[0].password  === password){
                 const user = checkUsername.rows[0];
-                req.session.user = {id: user.id, username: user.username, email: user.email};
-                return res.status(200).json({message: "Successfully loged in!"})
+                const username = user.username;
+                const token = jwt.sign(
+                    { id: user.id, username: user.username, email: user.email },
+                    JWT_SECRET,
+                    { expiresIn: "1h" }
+                );
+                return res.status(200).json({message: "Successfully loged in!", token, username})
             }
             else{
                 return res.status(400).json({message: "Invalid credentials."})
             }
+
         }
         else if(emailExists){
             const checkPasswordQuery = 'SELECT password FROM users WHERE email =?'
             const checkPassword = await client.execute(checkPasswordQuery, [usernameEmail], {prepare: true});
             if(checkPassword.rows[0].password === password){
                 const user = checkEmail.rows[0];
-                req.session.user = {id: user.id, username: user.username, email: user.email};
-                return res.status(200).json({message: "Successfully loged in!"})
+                const username = user.username;
+                const token = jwt.sign(
+                    { id: user.id, username: user.username, email: user.email },
+                    JWT_SECRET,
+                    { expiresIn: "1h" }
+                );
+                return res.status(200).json({message: "Successfully loged in!", token, username})
             }
             else{
                 return res.status(400).json({message: "Invalid credentials."})
@@ -115,26 +123,33 @@ app.post("/login", async (req, res) =>{
         console.error("Error during login:", err);
         res.status(500).send("Login failed.");
     }
-    
-
-    
-    
-    
 })
 
 //Login api -------------------------------------------------
 
-function isAuthenticated(req, res, next){
-    if(req.session.user){
-        return next();
+//Authentication -------------------------------------------------
+
+app.get("/protected", authenticateJWT, (req, res) => {
+    res.json({ message: "You have access!", user: req.user });
+});
+
+function authenticateJWT(req, res, next) {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+        return res.status(401).json({ message: "Access Denied" });
     }
-    res.status(400).send("Login unsuccessfully.");
+
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({ message: "Invalid Token" });
+        }
+        req.user = user;
+        next();
+    });
 }
 
-app.get("/profile", isAuthenticated, (req, res) => {
-    res.send(`Hello ${req.session.user.username}`);
-})
-
+//Authentication -------------------------------------------------
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

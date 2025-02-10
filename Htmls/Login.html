@@ -39,7 +39,7 @@
                     </div>
                 </a>
                 
-                <a href="Register.html">
+                <a id="iconHref" href="Register.html">
                     <div id="iconContainer">
                         <i class="fa-solid fa-user"></i>
                     </div>
@@ -56,7 +56,7 @@
                 <input id="loginEmailUsername" type="text" placeholder="Please enter your email or username">
                 <input id="loginPassword" type="password" placeholder="Please eneter your password">
                 <p id="errorMessage"></p>
-                <button onclick="Login()">Log in</button>
+                <button onclick="Login()" onclick="checkProtectedRoute()">Log in</button>
                 <a href="Register.html">Don't have an account?</a>
             </div>
         </div>

@@ -119,4 +119,10 @@
     cursor: pointer;
 }
 
+#movieReservationErrorMessage{
+    display: none;
+    color: red;
+    font-size: 1.3rem;
+}
+
 

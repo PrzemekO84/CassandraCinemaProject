@@ -40,7 +40,7 @@
                     </div>
                 </a>
                 
-                <a href="Register.html">
+                <a id="iconHref" href="Register.html">
                     <div id="iconContainer">
                         <i class="fa-solid fa-user"></i>
                     </div>
@@ -60,14 +60,14 @@
                         <div class="dropdownMenu">
                             <button>Movie</button>
                             <div class="content">
-                                <p>Twelve Angry Man</p>
-                                <p>Forrest Gump</p>
-                                <p>One Flew Over the Cuckoo's Nest</p>
-                                <p>Intocable</p>
-                                <p>First God Father</p>
-                                <p>The Shawshank Redemption</p>
-                                <p>Lord of the Rings: The Return of The King</p>
-                                <p>Green Mile</p>
+                                <p onclick="selectMovie(this.textContent)">Twelve Angry Man</p>
+                                <p onclick="selectMovie(this.textContent)">Forrest Gump</p>
+                                <p onclick="selectMovie(this.textContent)">One Flew Over the Cuckoo's Nest</p>
+                                <p onclick="selectMovie(this.textContent)">Intocable</p>
+                                <p onclick="selectMovie(this.textContent)">First God Father</p>
+                                <p onclick="selectMovie(this.textContent)">The Shawshank Redemption</p>
+                                <p onclick="selectMovie(this.textContent)">Lord of the Rings: The Return of The King</p>
+                                <p onclick="selectMovie(this.textContent)">Green Mile</p>
                             </div>
                         </div>
                         
@@ -76,17 +76,18 @@
                         <h2>Please choose the hour</h2>
                         <p>Screening time</p>
                         <div class="movieTimes">
-                            <p>10:00</p>
-                            <p>14:00</p>
-                            <p>20:00</p>
+                            <p onclick="selectHour(this.textContent)">10:00</p>
+                            <p onclick="selectHour(this.textContent)">14:00</p>
+                            <p onclick="selectHour(this.textContent)">20:00</p>
                         </div>
                     </div>
                     <div class="reservationOptions">
                         <h2>Resevation informations</h2>
                         <p>Number of free seats: 150</p>
-                        <p>Movie: Shrek 1</p>
-                        <p>Starting hour: 14:00</p>
-                        <button>Reserve</button>
+                        <p id="movieName">Movie: Please select movie</p>
+                        <p id="movieHour">Starting hour: Please select hour</p>
+                        <button onclick="reserveMovie()">Reserve</button>
+                        <p id="movieReservationErrorMessage"></p>
                     </div>
                 </div>
             </div>

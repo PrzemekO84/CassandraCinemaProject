@@ -69,6 +69,14 @@ body {
     padding: 0px 20px;
     border-radius: 25px;
     background-color: var(--sectionColor);
+    display: none;
+}
+
+.usernameDisplayContainer{
+    border: 2px solid var(--hoverColor);
+    padding: 0px 20px;
+    border-radius: 25px;
+    background-color: var(--sectionColor);
 }
 
 i{
@@ -229,4 +237,19 @@ main{
 
 /* Main */
 
+#CheckAuthenticationButton{
+    display: flex;
+    justify-content: center;
+    font-size: 5rem;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 5rem;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: violet;
+}
 
+.hidden {
+    display: none;
+}

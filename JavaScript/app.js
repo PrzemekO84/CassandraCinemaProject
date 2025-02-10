@@ -1,7 +1,5 @@
 //Image Slider --------------------------------------
 
-const { response } = require("express");
-
 const slider = document.querySelector('.slider');
 const links = document.querySelectorAll('.sliderNav a');
 
@@ -112,7 +110,11 @@ function Login(){
         const data = await response.json();
 
         if(response.ok){
+            sessionStorage.setItem("token", data.token); //zmienic potem na local
+            sessionStorage.setItem("username", data.username);
             showErrorMessages(data.message, "pass");
+
+            hideRegLog("success");
         }
         else{
             showErrorMessages(data.message, "fail");
@@ -120,29 +122,148 @@ function Login(){
     })
     .catch(error => console.error("Error: " + error)); 
 
-    checkIfLogged();
-
 }
 
-function checkIfLogged(){
-
-    fetch("http://localhost:3000/profile", {
+function checkProtectedRoute() {
+    fetch("http://localhost:3000/protected", {
         method: "GET",
-        credentials: "include",
+        headers: {
+            "Authorization": `Bearer ${sessionStorage.getItem("token")}` //zamienic potem na localStorage
+        }
     })
-    .then(async response =>{
+    .then(async response => {
         const data = await response.json();
 
-        if(response.ok){
-            console.log(response.text());
-        }
-        else{
-            console.log("BAD ABD BAD!");
+        if (response.ok) {
+            alert(`Access granted! User: ${data.user.username}`);
+        } else {
+            alert(data.message);
         }
     })
     .catch(error => console.error("Error: " + error));
+}
+
+function isToken(){
+
+    const sessionToken = sessionStorage.getItem("token");
+
+    if(!sessionToken){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
+//Login --------------------------------------
+
+//Hiding --------------------------------------
+
+function hideRegLog(status){
+
+    const username = sessionStorage.getItem("username");
+    const signContainer = document.getElementsByClassName("signINUPContainer");
+    const loginRegisterContainer = document.getElementById("loginRegisterContainer");
+    const accountIconHref = document.getElementById("iconHref");
+
+    console.log(username);
+
+    if(status === "success"){
+        Array.from(signContainer).forEach(element =>{
+            element.style.display = "none";
+        })
+
+        accountIconHref.href = "";
+
+        const usernameDisplayContainer = document.createElement("div");
+        const usernameDisplay = document.createElement("h2");
+    
+        usernameDisplayContainer.classList.add("usernameDisplayContainer");
+        usernameDisplay.textContent = username;
+        
+        usernameDisplayContainer.append(usernameDisplay);
+    
+        loginRegisterContainer.append(usernameDisplayContainer);
+    }
+    else{
+        Array.from(signContainer).forEach(element => {
+            element.style.display = "block";
+        });
+    }  
 
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+    // const isLoggedIn = sessionStorage.getItem("isLoggedIn");h   
+    // const signContainer = document.getElementsByClassName("signINUPContainer");
+
+    // console.log(isLoggedIn);
+
+    const tokenSuccess = isToken();
+
+    if(tokenSuccess){
+        hideRegLog("success")
+    }
+    else{
+        hideRegLog("fail")
+    }
+});
+
+//Hiding --------------------------------------
+
+//Movie Reservation --------------------------------------
+
+function selectMovie(input){
+
+    const movieName = document.getElementById("movieName");
+
+    movieName.textContent = "Selected movie: " + input;
+
+}
+
+function selectHour(input){
+
+    const movieHour = document.getElementById("movieHour");
+
+    movieHour.textContent = "Reservation hour: " + input;
+}
+
+function reserveMovie(){
+
+    reservationValidation();
+    // else if("tutaj bedzie licza miejsc jeszcze wrzuc to wyzej przed selected movie")
+}
+
+function reservationValidation(){
+
+    const movieReservationErrorMessage = document.getElementById("movieReservationErrorMessage");
+    const movieName = document.getElementById("movieName");
+    const movieHour = document.getElementById("movieHour");
+    
+    const tokenSuccess = isToken();
+
+    if(!tokenSuccess){
+
+        movieReservationErrorMessage.style.display = "block"
+        movieReservationErrorMessage.textContent = "You need to be logged in to reserve a movie."
+
+    }
+    else if(movieName.textContent === "Movie: Please select movie"){
+        movieReservationErrorMessage.style.display = "block"
+        movieReservationErrorMessage.textContent = "You need to choose a movie first."
+    }
+    else if(movieHour.textContent === "Starting hour: Please select hour"){
+        movieReservationErrorMessage.style.display = "block"
+        movieReservationErrorMessage.textContent = "You need to choose an hour first."
+    }
+    else{
+        movieReservationErrorMessage.style.display = "block"
+        movieReservationErrorMessage.textContent = "Udalo sie xd"
+    }
+}
+
+
+//Movie Reservation --------------------------------------
 
 
 function showErrorMessages(message, status){
@@ -173,6 +294,10 @@ function showErrorMessages(message, status){
     errorMessage.textContent = message
 
 }
+
+
+
+
 
 
 
