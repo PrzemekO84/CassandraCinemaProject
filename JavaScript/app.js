@@ -215,23 +215,89 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function selectMovie(input){
 
-    const movieName = document.getElementById("movieName");
+    const movieNameContainer = document.getElementById("movieNameCheck");
 
-    movieName.textContent = "Selected movie: " + input;
+    movieNameContainer.textContent = "Selected movie: " + input;
 
 }
 
 function selectHour(input){
 
-    const movieHour = document.getElementById("movieHour");
+    const movieHour = document.getElementById("movieHourCheck");
 
     movieHour.textContent = "Reservation hour: " + input;
 }
 
-function reserveMovie(){
+async function reserveMovie(){
 
     reservationValidation();
-    // else if("tutaj bedzie licza miejsc jeszcze wrzuc to wyzej przed selected movie")
+
+
+    await fetch("http://localhost:3000/reserveMovie")
+}
+
+async function getSeatsNumber(){
+
+    const checkValidation = checkMovieValidation();
+    if(!checkValidation){
+        return;
+    }
+    else{
+        const checkSeatsContainer = document.getElementById("checkSeatsContainer");
+        const reservationContainer = document.getElementById("reservationContainer");
+    
+        //TEST DATA//
+        const testData = "2025-02-13 14:00"
+        //TEST DATA//
+    
+        const movieNameContainer = document.getElementById("movieNameCheck").textContent.slice(16);
+        const movieHourContainer = document.getElementById("movieHourCheck").textContent.slice(18);
+    
+        const movieName = movieNameContainer.trim();
+        const movieHour = movieHourContainer.trim();
+        let movieID;
+        let availableSeats;
+    
+        // const currentDate = new Date();
+        // const fullMovieDate = `${currentDate.toISOString().slice(0, 10)} ${movieHour}`;
+    
+        // console.log("🔹 Formatted fullMovieDate:", fullMovieDate);
+    
+        await fetch(`http://localhost:3000/getMovie?movieName=${encodeURIComponent(movieName.trim())}`)
+            .then(async response => {
+                const data = await response.json();
+                movieID = data.movieID;
+            })
+            .catch(error => console.error("Error: " + error)); 
+    
+        const params = new URLSearchParams();
+        params.append("movieID", movieID);
+        params.append("movieHour", testData);
+    
+        await fetch(`http://localhost:3000/getHour?${params.toString()}`)
+            .then(async response => {
+                if(response.ok){
+                    const data = await response.json();
+                    return availableSeats = data.availableSeats;
+                }
+                else{
+                    console.error("Error: " + response.statusText);
+                }
+            })
+            .catch(error => console.error("Error:" + error));
+    
+            checkSeatsContainer.style.display = "none";
+            reservationContainer.style.display = "flex"
+            
+            const movieNumberOfSeats = document.getElementById("movieNumberOfSeats");
+            const movieNameReservation = document.getElementById("movieName");
+            const movieHourReservation = document.getElementById("movieHour");
+
+            movieNumberOfSeats.textContent = "Number of free seats: " + availableSeats;
+            movieNameReservation.textContent = "Selected movie: " + movieName;
+            movieHourReservation.textContent = "Selected hour: " + movieHour;
+
+    }    
 }
 
 function reservationValidation(){
@@ -239,27 +305,55 @@ function reservationValidation(){
     const movieReservationErrorMessage = document.getElementById("movieReservationErrorMessage");
     const movieName = document.getElementById("movieName");
     const movieHour = document.getElementById("movieHour");
+    const StringOfTickets = document.getElementById("numberOfTickets").value;
+    const movieStringOfSeats = document.getElementById("movieNumberOfSeats").textContent.slice(22);
+    const numberOfTickets = Number(StringOfTickets);
+    const movieNumberOfSeats = Number(movieStringOfSeats);
     
     const tokenSuccess = isToken();
 
     if(!tokenSuccess){
-
         movieReservationErrorMessage.style.display = "block"
         movieReservationErrorMessage.textContent = "You need to be logged in to reserve a movie."
-
     }
-    else if(movieName.textContent === "Movie: Please select movie"){
-        movieReservationErrorMessage.style.display = "block"
-        movieReservationErrorMessage.textContent = "You need to choose a movie first."
+    else if(numberOfTickets === 0 || numberOfTickets > 20 || numberOfTickets < 0){
+        movieReservationErrorMessage.style.display = "block";
+        movieReservationErrorMessage.textContent = "Please select correct number of tickets you want to reserve";
     }
-    else if(movieHour.textContent === "Starting hour: Please select hour"){
-        movieReservationErrorMessage.style.display = "block"
-        movieReservationErrorMessage.textContent = "You need to choose an hour first."
+    else if(movieNumberOfSeats === 0){
+        movieReservationErrorMessage.style.display = "block";
+        movieReservationErrorMessage.textContent = "We are sorry we don't have more available tickets for this seance.";
     }
     else{
         movieReservationErrorMessage.style.display = "block"
         movieReservationErrorMessage.textContent = "Udalo sie xd"
     }
+}
+
+
+function checkMovieValidation(){
+
+    const movieReservationErrorMessage = document.getElementById("movieCheckErrorMessage");
+
+    let succes = false;
+
+    const movieName = document.getElementById("movieNameCheck");
+    const movieHour = document.getElementById("movieHourCheck");
+
+    if(movieName.textContent === "Movie: Please select movie"){
+        movieReservationErrorMessage.style.display = "block";
+        movieReservationErrorMessage.textContent = "You need to choose a movie first.";
+        return succes
+    }
+    else if(movieHour.textContent === "Starting hour: Please select hour"){
+        movieReservationErrorMessage.style.display = "block";
+        movieReservationErrorMessage.textContent = "You need to choose an hour first.";
+        return succes
+    }
+    else{
+        return succes = true;
+    }
+    
 }
 
 

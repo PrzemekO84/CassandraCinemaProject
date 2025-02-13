@@ -22,7 +22,7 @@
     justify-content: center;
     align-items: stretch;
     flex-direction: row;
-    gap: 80px;
+    gap: 50px;
 }
 
 .movieTimes{
@@ -102,7 +102,7 @@
 }
 
 .reservationOptions p{
-    font-size: 1.4rem;
+    font-size: 1.5rem;
 }
 
 .movieTimes p:hover, .reservationOptions button:hover{
@@ -120,6 +120,38 @@
 }
 
 #movieReservationErrorMessage{
+    display: none;
+    color: red;
+    font-size: 1.3rem;
+}
+
+#testButton{
+    font-size: 3rem;
+}
+
+#differentMovie a{
+    color:white;
+    font-size: 1.1rem;
+}
+
+#numberOfTickets{
+    margin-bottom: 30px;
+}
+
+label{
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+input{
+    min-width: fit-content;
+    padding: 7px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+#movieCheckErrorMessage{
     display: none;
     color: red;
     font-size: 1.3rem;

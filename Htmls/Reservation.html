@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cassandra Cinema</title>
     <link rel="stylesheet" href="../CSS/styles.css">
-    <link rel="stylesheet" href="../CSS/resevation.css">
+    <link rel="stylesheet" href="../CSS/reservation.css">
     <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Cassandra_logo.svg/1200px-Cassandra_logo.svg.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,14 +60,14 @@
                         <div class="dropdownMenu">
                             <button>Movie</button>
                             <div class="content">
-                                <p onclick="selectMovie(this.textContent)">Twelve Angry Man</p>
+                                <p onclick="selectMovie(this.textContent)">Twelve Angry Men</p>
                                 <p onclick="selectMovie(this.textContent)">Forrest Gump</p>
                                 <p onclick="selectMovie(this.textContent)">One Flew Over the Cuckoo's Nest</p>
-                                <p onclick="selectMovie(this.textContent)">Intocable</p>
-                                <p onclick="selectMovie(this.textContent)">First God Father</p>
+                                <p onclick="selectMovie(this.textContent)">Intouchables</p>
+                                <p onclick="selectMovie(this.textContent)">The Godfather</p>
                                 <p onclick="selectMovie(this.textContent)">The Shawshank Redemption</p>
-                                <p onclick="selectMovie(this.textContent)">Lord of the Rings: The Return of The King</p>
-                                <p onclick="selectMovie(this.textContent)">Green Mile</p>
+                                <p onclick="selectMovie(this.textContent)">The Lord of the Rings: The Return of the King</p>
+                                <p onclick="selectMovie(this.textContent)">The Green Mile</p>
                             </div>
                         </div>
                         
@@ -81,12 +81,22 @@
                             <p onclick="selectHour(this.textContent)">20:00</p>
                         </div>
                     </div>
-                    <div class="reservationOptions">
+                    <div id="checkSeatsContainer" class="reservationOptions">
+                        <h2>Check avaiable seats</h2>
+                        <p id="movieNameCheck">Movie: Please select movie</p>
+                        <p id="movieHourCheck">Starting hour: Please select hour</p>
+                        <button onclick="getSeatsNumber()">Check</button>
+                        <p id="movieCheckErrorMessage"></p>
+                    </div>
+                    <div id="reservationContainer" class="reservationOptions" style="display: none;">
                         <h2>Resevation informations</h2>
-                        <p>Number of free seats: 150</p>
+                        <p id="movieNumberOfSeats"></p>
                         <p id="movieName">Movie: Please select movie</p>
                         <p id="movieHour">Starting hour: Please select hour</p>
+                        <label for="tickets">Enter number of tickets (max 20 per account)</label>
+                        <input id="numberOfTickets" type="number" name="tickets" placeholder="Number of tickets">
                         <button onclick="reserveMovie()">Reserve</button>
+                        <p id="differentMovie"><a href="../Htmls/Reservation.html">Select different movie.</a></p>
                         <p id="movieReservationErrorMessage"></p>
                     </div>
                 </div>

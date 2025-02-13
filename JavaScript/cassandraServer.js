@@ -127,6 +127,55 @@ app.post("/login", async (req, res) =>{
 
 //Login api -------------------------------------------------
 
+//Reservation -------------------------------------------------
+
+app.get("/getMovie", async (req, res) => {
+
+    const movieName = req.query.movieName;
+
+    console.log(movieName);
+
+    try{
+        const checkMovieIDQuery = 'SELECT id FROM movies WHERE title =?';
+        const checkMovieID = await client.execute(checkMovieIDQuery, [movieName], {prepare: true});
+        if(checkMovieID.rows.length > 0){
+            return res.status(200).json({ movieID: checkMovieID.rows[0].id });
+        }
+        else{
+            return res.status(404).json({error: "Didn't find the movie in the movie database"});
+        }
+
+    }
+    catch(error){
+        res.status(500).json({error: "Server error"});
+    }
+
+})
+
+app.get("/getHour", async (req, res) => {
+
+    const movieID = req.query.movieID;
+    const movieHour = req.query.movieHour;
+
+    
+    try{
+        const checkAvailableSeatsQuery = 'SELECT available_seats FROM screenings WHERE movie_id =? AND screening_time =?'
+        const checkAvailableSeats = await client.execute(checkAvailableSeatsQuery, [movieID, movieHour], {prepare: true});
+        if(checkAvailableSeats.rows.length > 0){
+            const availableSeats = checkAvailableSeats.rows[0].get('available_seats');
+            return res.status(200).json({availableSeats: availableSeats});
+        }
+        else{
+            return res.status(404).json({error: "Didn't find the movieID in the screenings database."})
+        }
+        
+    }
+    catch (error) {
+        console.error(error);  
+        res.status(500).json({ error: "Server error", details: error.message });
+    }
+})
+
 //Authentication -------------------------------------------------
 
 app.get("/protected", authenticateJWT, (req, res) => {
