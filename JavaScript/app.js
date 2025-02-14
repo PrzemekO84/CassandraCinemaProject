@@ -112,6 +112,7 @@ function Login(){
         if(response.ok){
             sessionStorage.setItem("token", data.token); //zmienic potem na local
             sessionStorage.setItem("username", data.username);
+            sessionStorage.setItem("email", data.email);
             showErrorMessages(data.message, "pass");
 
             hideRegLog("success");
@@ -230,10 +231,27 @@ function selectHour(input){
 
 async function reserveMovie(){
 
-    reservationValidation();
+    const validatedResrvationInformations = reservationValidation();
 
+    if(!validatedResrvationInformations.succes){
+        return;
+    }
+    else{
+        const movieName = validatedResrvationInformations.movieName;
+        const movieHour = validatedResrvationInformations.movieHour;
+        const numberOfTickets = validatedResrvationInformations.numberOfTickets;
 
-    await fetch("http://localhost:3000/reserveMovie")
+    
+        reservationInformation(movieName, movieHour, numberOfTickets);
+
+        
+        const reserveButton = document.getElementById("reserveButton");
+
+        reserveButton.disabled = true;
+        reserveButton.style.backgroundColor = "gray";
+
+    }
+    
 }
 
 async function getSeatsNumber(){
@@ -243,12 +261,9 @@ async function getSeatsNumber(){
         return;
     }
     else{
+
         const checkSeatsContainer = document.getElementById("checkSeatsContainer");
         const reservationContainer = document.getElementById("reservationContainer");
-    
-        //TEST DATA//
-        const testData = "2025-02-13 14:00"
-        //TEST DATA//
     
         const movieNameContainer = document.getElementById("movieNameCheck").textContent.slice(16);
         const movieHourContainer = document.getElementById("movieHourCheck").textContent.slice(18);
@@ -257,6 +272,11 @@ async function getSeatsNumber(){
         const movieHour = movieHourContainer.trim();
         let movieID;
         let availableSeats;
+
+        //TEST DATA//
+        const testData = "2025-02-13 " + movieHour
+        //TEST DATA//
+
     
         // const currentDate = new Date();
         // const fullMovieDate = `${currentDate.toISOString().slice(0, 10)} ${movieHour}`;
@@ -286,29 +306,76 @@ async function getSeatsNumber(){
             })
             .catch(error => console.error("Error:" + error));
     
-            checkSeatsContainer.style.display = "none";
-            reservationContainer.style.display = "flex"
-            
-            const movieNumberOfSeats = document.getElementById("movieNumberOfSeats");
-            const movieNameReservation = document.getElementById("movieName");
-            const movieHourReservation = document.getElementById("movieHour");
-
-            movieNumberOfSeats.textContent = "Number of free seats: " + availableSeats;
-            movieNameReservation.textContent = "Selected movie: " + movieName;
-            movieHourReservation.textContent = "Selected hour: " + movieHour;
+        checkSeatsContainer.style.display = "none";
+        reservationContainer.style.display = "flex"
+        
+        const movieNumberOfSeats = document.getElementById("movieNumberOfSeats");
+        const movieNameReservation = document.getElementById("movieName");
+        const movieHourReservation = document.getElementById("movieHour");
+        movieNumberOfSeats.textContent = "Number of free seats: " + availableSeats;
+        movieNameReservation.textContent = "Selected movie: " + movieName;
+        movieHourReservation.textContent = "Selected hour: " + movieHour;
 
     }    
+}
+
+async function reservationInformation(movieName, movieHour, numberOfTickets){
+
+    const username = sessionStorage.username;
+    const email = sessionStorage.email;
+
+    const fullMovieDate = "2025-02-13 " + movieHour;
+
+
+    console.log(movieName);
+    console.log(movieHour);
+    console.log(numberOfTickets);
+    console.log(fullMovieDate);
+    console.log(username);
+    console.log(email);
+
+
+    
+    await fetch("http://localhost:3000/postReservation", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({movieName, movieHour, numberOfTickets, fullMovieDate, username, email})
+    })
+    .then(async response => {
+        const data = await response.json();
+        const movieReservationErrorMessage = document.getElementById("movieReservationErrorMessage");
+        const reservationMessege = document.getElementById("reservationMessege"); //Dodatkowa wiadomosc aby zobaczyc co zostalo przeslane do bazy dancyh :)
+        movieReservationErrorMessage.style.display = "block";
+
+        if(response.ok){
+            movieReservationErrorMessage.style.color = "#66ff33"
+            movieReservationErrorMessage.textContent = "Successful reservation."
+            reservationMessege.textContent = data.message;
+        }
+        else{
+            movieReservationErrorMessage.style.color = "red";
+            movieReservationErrorMessage.textContent = "Unsuccessful reservation.";
+            reservationMessege.textContent = data.message;
+        }
+    })
+    .catch(error => {
+        console.error("Error " + error);
+    })
+       
 }
 
 function reservationValidation(){
 
     const movieReservationErrorMessage = document.getElementById("movieReservationErrorMessage");
-    const movieName = document.getElementById("movieName");
-    const movieHour = document.getElementById("movieHour");
+    const movieName = document.getElementById("movieName").textContent.slice(16);
+    const movieHour = document.getElementById("movieHour").textContent.slice(15);
     const StringOfTickets = document.getElementById("numberOfTickets").value;
     const movieStringOfSeats = document.getElementById("movieNumberOfSeats").textContent.slice(22);
     const numberOfTickets = Number(StringOfTickets);
     const movieNumberOfSeats = Number(movieStringOfSeats);
+    let succes = false;
     
     const tokenSuccess = isToken();
 
@@ -325,9 +392,10 @@ function reservationValidation(){
         movieReservationErrorMessage.textContent = "We are sorry we don't have more available tickets for this seance.";
     }
     else{
-        movieReservationErrorMessage.style.display = "block"
-        movieReservationErrorMessage.textContent = "Udalo sie xd"
+        succes = true;
     }
+
+    return {movieName, movieHour, numberOfTickets, succes}
 }
 
 

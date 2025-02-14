@@ -89,12 +89,13 @@ app.post("/login", async (req, res) =>{
             if(checkPassword.rows[0].password  === password){
                 const user = checkUsername.rows[0];
                 const username = user.username;
+                const email = user.email;
                 const token = jwt.sign(
                     { id: user.id, username: user.username, email: user.email },
                     JWT_SECRET,
                     { expiresIn: "1h" }
                 );
-                return res.status(200).json({message: "Successfully loged in!", token, username})
+                return res.status(200).json({message: "Successfully loged in!", token, username, email});
             }
             else{
                 return res.status(400).json({message: "Invalid credentials."})
@@ -107,12 +108,13 @@ app.post("/login", async (req, res) =>{
             if(checkPassword.rows[0].password === password){
                 const user = checkEmail.rows[0];
                 const username = user.username;
+                const email = user.email;
                 const token = jwt.sign(
                     { id: user.id, username: user.username, email: user.email },
                     JWT_SECRET,
                     { expiresIn: "1h" }
                 );
-                return res.status(200).json({message: "Successfully loged in!", token, username})
+                return res.status(200).json({message: "Successfully loged in!", token, username, email});
             }
             else{
                 return res.status(400).json({message: "Invalid credentials."})
@@ -175,6 +177,33 @@ app.get("/getHour", async (req, res) => {
         res.status(500).json({ error: "Server error", details: error.message });
     }
 })
+
+app.post("/postReservation", async (req, res) => {
+      
+    const {movieName, movieHour, numberOfTickets,  
+          fullMovieDate, username, email} = req.body;
+
+    console.log(movieName);
+    console.log(movieHour);
+    console.log(numberOfTickets);
+    console.log(fullMovieDate);
+    console.log(username);
+    console.log(email);
+
+    try{
+        
+        const reservationQuery = "INSERT INTO reservations (reservation_id, movie_name, movie_hour, number_of_tickets, reservation_date, username, email) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        const params = [uuid.v4(), movieName, movieHour, numberOfTickets, fullMovieDate, username, email];
+
+        client.execute(reservationQuery, params, {prepare: true});
+        return res.status(200).json({message: `Successfull reservation the data inserted into data base: Movie name: 
+            ${movieName}, Movie hour: ${movieHour}, Movie Date: ${fullMovieDate}, Username: ${username}, Email: ${email}`});
+
+    }
+    catch(error){
+        return res.status(404).json({message: `Reservation unsuccessfull: ${error}`});
+    }
+});
 
 //Authentication -------------------------------------------------
 
