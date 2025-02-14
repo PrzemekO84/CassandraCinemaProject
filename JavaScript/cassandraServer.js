@@ -135,7 +135,7 @@ app.get("/getMovie", async (req, res) => {
 
     const movieName = req.query.movieName;
 
-    console.log(movieName);
+
 
     try{
         const checkMovieIDQuery = 'SELECT id FROM movies WHERE title =?';
@@ -182,13 +182,6 @@ app.post("/postReservation", async (req, res) => {
       
     const {movieName, movieHour, numberOfTickets,  
           fullMovieDate, username, email} = req.body;
-
-    console.log(movieName);
-    console.log(movieHour);
-    console.log(numberOfTickets);
-    console.log(fullMovieDate);
-    console.log(username);
-    console.log(email);
 
     try{
         
