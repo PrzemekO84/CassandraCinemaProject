@@ -66,25 +66,25 @@ Node.js i npm
 
 ### Struktura bazy danych
 
-Tabela users
+#### Tabela users
 
 ![image](https://github.com/user-attachments/assets/38f684f6-0154-4e34-8217-df65b4b3f697)
 
 ![image](https://github.com/user-attachments/assets/6970b150-85d3-4df3-8a42-68e56e5d2aea)
 
-Tabela movies
+#### Tabela movies
 
 ![image](https://github.com/user-attachments/assets/5b7e8393-1cfb-4dce-b32d-bc71649be4ae)
 
 ![image](https://github.com/user-attachments/assets/2cdc2e7d-8883-429d-9f98-a083af6d7c2c)
 
-Tabela screenings
+#### Tabela screenings
 
 ![image](https://github.com/user-attachments/assets/fb7da3ee-0ab2-4e45-9056-12615c539395)
 
 ![image](https://github.com/user-attachments/assets/76813a58-c140-45ba-892b-11b0ebacc1aa)
 
-Table reservations
+#### Table reservations
 
 ![image](https://github.com/user-attachments/assets/7b6c27b2-67a1-4bb0-81b5-11df09265045)
 
